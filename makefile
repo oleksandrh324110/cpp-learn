@@ -1,8 +1,6 @@
-cc = clang++
-cflags = -std=c++17 -o main.exe -Os
+cc = c++
+cflags = -std=c++11 -s -Os -o main.exe
+sources = src/main.cpp
 
 main:
-	$(cc) $(cflags) main.cpp
-
-homework:
-	$(cc) $(cflags) homework.cpp
+	$(cc) $(cflags) $(sources)
