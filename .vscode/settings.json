@@ -1,0 +1,9 @@
+{
+	"files.associations": {
+		"*.css": "css",
+		"*.mdx": "mdx",
+		"iostream": "cpp",
+		"stack": "cpp",
+		"vector": "cpp"
+	}
+}
