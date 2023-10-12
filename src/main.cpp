@@ -1,34 +1,33 @@
+#include <array>
 #include <iostream>
 #include <vector>
 
 void print_tower(const std::vector<char> &tower) {
-  std::cout << tower.size();
   for (auto i : tower) {
     std::cout << (int)i << " ";
   }
 }
 
-void hanoi_tower(char n) {
-  std::vector<char> tower_a((int)n);
-  std::vector<char> tower_b;
-  std::vector<char> tower_c;
+void swap_disks(std::vector<char> &from, std::vector<char> &to) {
+  to.push_back(from.back());
+  from.pop_back();
+}
 
-  std::cout << (int)n;
+void hanoi_tower(unsigned short n) {
+  std::array<std::vector<char>, 3> towers{};
 
-  for (char i = 0; i < n; i++) {
-    tower_a.push_back(n - i);
+  for (int i = 0; i < n; i++) {
+    towers[0].push_back(n - i);
   }
 
   char from, to;
-  while (tower_c.size() < n) {
+  while (towers[2].size() < n) {
     std::cout << "tower a: ";
-    print_tower(tower_a);
-
-    return;
+    print_tower(towers[0]);
     std::cout << "\ntower b: ";
-    print_tower(tower_b);
+    print_tower(towers[1]);
     std::cout << "\ntower c: ";
-    print_tower(tower_c);
+    print_tower(towers[2]);
 
     std::cout << "\n\n";
 
@@ -37,14 +36,29 @@ void hanoi_tower(char n) {
     std::cout << "Move to: ";
     std::cin >> to;
 
-    std::cout << from << ' ' << to << '\n';
+    std::cout << "\n";
+
+    char diskFrom = std::tolower(from) - 'a';
+    char diskTo = std::tolower(to) - 'a';
+
+    if (diskFrom >= 0 && diskFrom <= 2 && diskTo >= 0 && diskTo <= 2) {
+      if (!towers[diskFrom].empty()) {
+        if (towers[diskTo].empty() ||
+            towers[diskFrom].back() < towers[diskTo].back()) {
+          swap_disks(towers[diskFrom], towers[diskTo]);
+        }
+      }
+    }
   }
+
+  std::cout << "You solved it!\n";
 }
 
 int main() {
   std::cout << "Enter the number of disks: ";
-  char n;
+  unsigned short n;
   std::cin >> n;
+  std::cout << "\n";
 
   hanoi_tower(n);
 }
