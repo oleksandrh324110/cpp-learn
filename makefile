@@ -1,6 +1,5 @@
 cc = c++
-cflags = -std=c++11 -Os -o main.exe
-sources = src/main.cpp
+cflags = -std=c++11 -Os
 
-main:
-	$(cc) $(cflags) $(sources)
+%: src/%.cpp
+	$(cc) $(cflags) -o $@.exe $<

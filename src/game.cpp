@@ -21,7 +21,7 @@ void hanoi_tower(unsigned short n) {
   }
 
   char from, to;
-  while (towers[2].size() < n) {
+  while (towers[2].size() < n && towers[1].size() < n) {
     std::cout << "tower a: ";
     print_tower(towers[0]);
     std::cout << "\ntower b: ";
@@ -55,7 +55,7 @@ void hanoi_tower(unsigned short n) {
 }
 
 int main() {
-  std::cout << "Enter the number of disks: ";
+  std::cout << "Enter the number of disks to play: ";
   unsigned short n;
   std::cin >> n;
   std::cout << "\n";
