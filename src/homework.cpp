@@ -1,3 +1,4 @@
+#include "ansi.cpp"
 #include <iostream>
 
 struct Min {
@@ -24,11 +25,11 @@ void selectionSort(int arr[], int size) {
 
     for (int k = 0; k < size; k++) {
       if (k == i) {
-        std::cout << "\033[31m" << arr[k] << "\033[0m ";
+        std::cout << ANSI::bold << ANSI::red << arr[k] << ANSI::reset << ' ';
       } else if (k == min.index) {
-        std::cout << "\033[32m" << arr[k] << "\033[0m ";
+        std::cout << ANSI::bold << ANSI::green << arr[k] << ANSI::reset << ' ';
       } else
-        std::cout << arr[k] << ' ';
+        std::cout << ANSI::bold << arr[k] << ANSI::reset << ' ';
     }
   }
 }
@@ -37,7 +38,7 @@ int main() {
   int arr[] = {3, 5, 2, 7, 6, 4, 1};
 
   for (int &i : arr) {
-    std::cout << i << ' ';
+    std::cout << ANSI::bold << i << ANSI::reset << ' ';
   }
 
   selectionSort(arr, sizeof(arr) / sizeof(arr[0]));
