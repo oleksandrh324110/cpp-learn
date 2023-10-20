@@ -36,8 +36,9 @@ void selectionSort(int arr[], int size) {
 int main() {
   int arr[] = {3, 5, 2, 7, 6, 4, 1};
 
-  for (int &i : arr)
+  for (int &i : arr) {
     std::cout << i << ' ';
+  }
 
   selectionSort(arr, sizeof(arr) / sizeof(arr[0]));
 }
