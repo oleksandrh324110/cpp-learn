@@ -5,24 +5,20 @@
 int main() {
   srand(time(nullptr));
 
-  int arr[3][4] = {};
+  int arr[9]{};
 
-  int zeroCount = 0;
+  for (auto &n : arr)
+    n = rand() % 10;
 
-  for (auto &i : arr)
-    for (auto &j : i)
-      j = rand() % 10;
+  for (auto &n : arr)
+    std::cout << n << " ";
+  std::cout << '\n';
 
-  for (auto &i : arr) {
-    for (auto &j : i)
-      std::cout << j << ' ';
-    std::cout << '\n';
-  }
-
-  for (auto &i : arr)
-    for (auto &j : i)
-      if (j == 0)
-        zeroCount++;
-
-  std::cout << "Zero count: " << zeroCount << '\n';
+  int searchNumber = rand() % 10;
+  for (auto &n : arr)
+    if (n == searchNumber) {
+      std::cout << "Number " << searchNumber << " is found" << std::endl;
+      return 0;
+    }
+  std::cout << "Number " << searchNumber << " isn't found" << std::endl;
 }
