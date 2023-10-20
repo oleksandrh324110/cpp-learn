@@ -32,6 +32,7 @@ void selectionSort(int arr[], int size) {
         std::cout << ANSI::bold << arr[k] << ANSI::reset << ' ';
     }
   }
+  std::cout << '\n';
 }
 
 int main() {
