@@ -1,24 +1,22 @@
-#include <ctime>
 #include <iostream>
-#include <random>
+
+void m_strcat(char *to, const char *from) {
+  while (*to) {
+    to++;
+  }
+  while (*from) {
+    *to++ = *from++;
+  }
+  *to = 0;
+}
 
 int main() {
-  srand(time(nullptr));
+  char str1[30] = "Hello ";
+  const char *str2 = "World!!!";
 
-  int arr[9]{};
+  std::cout << "str1 before m_strcat: " << str1 << '\n';
 
-  for (auto &n : arr)
-    n = rand() % 10;
+  m_strcat(str1, str2);
 
-  for (auto &n : arr)
-    std::cout << n << " ";
-  std::cout << '\n';
-
-  int searchNumber = rand() % 10;
-  for (auto &n : arr)
-    if (n == searchNumber) {
-      std::cout << "Number " << searchNumber << " is found" << std::endl;
-      return 0;
-    }
-  std::cout << "Number " << searchNumber << " isn't found" << std::endl;
+  std::cout << "str1 after m_strcat: " << str1 << '\n';
 }
