@@ -1,22 +1,11 @@
 #include <iostream>
 
-void m_strcat(char *to, const char *from) {
-  while (*to) {
-    to++;
-  }
-  while (*from) {
-    *to++ = *from++;
-  }
-  *to = 0;
+bool m_strcmp(const char *s1, const char *s2) {
+  while (*s1)
+    if (*s1++ != *s2++)
+      return false;
+
+  return !*s2;
 }
 
-int main() {
-  char str1[30] = "Hello ";
-  const char *str2 = "World!!!";
-
-  std::cout << "str1 before m_strcat: " << str1 << '\n';
-
-  m_strcat(str1, str2);
-
-  std::cout << "str1 after m_strcat: " << str1 << '\n';
-}
+int main() { std::cout << m_strcmp("Hello", "Hello") << '\n'; }
