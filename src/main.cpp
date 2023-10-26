@@ -1,38 +1,30 @@
+#include "ansi.cpp"
 #include <ctime>
 #include <iostream>
 #include <random>
 
-#define ROWS 2
+#define ROWS 3
 #define COLS 3
 
-void print_matrix(int **m);
-void matrix_sum(int **dest, int **m1, int **m2);
+void print_matrix(int **matrix);
+int matrix_det(int **matrix);
 
 int main() {
   srand(time(0));
 
-  int **dest = new int *[ROWS];
-  int **matrix1 = new int *[ROWS];
-  int **matrix2 = new int *[ROWS];
+  int **matrix = new int *[ROWS];
 
   for (int i = 0; i < ROWS; i++) {
-    dest[i] = new int[COLS];
-    matrix1[i] = new int[COLS];
-    matrix2[i] = new int[COLS];
+    matrix[i] = new int[COLS];
     for (int j = 0; j < COLS; j++) {
-      matrix1[i][j] = rand() % 5;
-      matrix2[i][j] = rand() % 5;
+      matrix[i][j] = j + i * ROWS;
     }
   }
 
-  print_matrix(matrix1);
-  std::cout << '\n';
-  print_matrix(matrix2);
+  print_matrix(matrix);
   std::cout << '\n';
 
-  matrix_sum(dest, matrix1, matrix2);
-
-  print_matrix(dest);
+  std::cout << matrix_det(matrix) << '\n';
 }
 
 void print_matrix(int **m) {
@@ -44,10 +36,47 @@ void print_matrix(int **m) {
   }
 }
 
-void matrix_sum(int **dest, int **m1, int **m2) {
-  for (int i = 0; i < ROWS; i++) {
-    for (int j = 0; j < COLS; j++) {
-      dest[i][j] = m1[i][j] + m2[i][j];
+int matrix_det(int **matrix) {
+  int det = 0;
+  int acc[ROWS]{};
+
+  for (int k = 0; k < ROWS; k++) {
+    for (int i = 0; i < COLS; i++) {
+      for (int j = 0; j < ROWS; j++) {
+        if ((i + k) % ROWS == j) {
+          acc[i] = matrix[i][j];
+          std::cout << ANSI::bold << ANSI::green << acc[i] << ANSI::reset
+                    << ' ';
+        }
+      }
     }
+
+    int mult = acc[0];
+    for (int i = 1; i < ROWS; i++) {
+      mult *= acc[i];
+    }
+
+    det += mult;
+
+    std::cout << '\n';
+
+    for (int i = 0; i < ROWS; i++) {
+      for (int j = 0; j < ROWS; j++) {
+        if ((ROWS - i + k + 1) % ROWS == j) {
+          acc[i] = matrix[i][j];
+          std::cout << ANSI::bold << ANSI::red << acc[i] << ANSI::reset << ' ';
+        }
+      }
+    }
+
+    mult = acc[0];
+    for (int i = 1; i < ROWS; i++) {
+      mult *= acc[i];
+    }
+
+    det -= mult;
+    std::cout << '\n';
   }
+
+  return det;
 }
