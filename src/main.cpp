@@ -5,22 +5,8 @@
 #define ROWS 2
 #define COLS 3
 
-void print_matrix(int **m) {
-  for (int i = 0; i < ROWS; i++) {
-    for (int j = 0; j < COLS; j++) {
-      std::cout << m[i][j] << " ";
-    }
-    std::cout << '\n';
-  }
-}
-
-void matrix_sum(int **dest, int **m1, int **m2) {
-  for (int i = 0; i < ROWS; i++) {
-    for (int j = 0; j < COLS; j++) {
-      dest[i][j] = m1[i][j] + m2[i][j];
-    }
-  }
-}
+void print_matrix(int **m);
+void matrix_sum(int **dest, int **m1, int **m2);
 
 int main() {
   srand(time(0));
@@ -47,4 +33,21 @@ int main() {
   matrix_sum(dest, matrix1, matrix2);
 
   print_matrix(dest);
+}
+
+void print_matrix(int **m) {
+  for (int i = 0; i < ROWS; i++) {
+    for (int j = 0; j < COLS; j++) {
+      std::cout << m[i][j] << " ";
+    }
+    std::cout << '\n';
+  }
+}
+
+void matrix_sum(int **dest, int **m1, int **m2) {
+  for (int i = 0; i < ROWS; i++) {
+    for (int j = 0; j < COLS; j++) {
+      dest[i][j] = m1[i][j] + m2[i][j];
+    }
+  }
 }
