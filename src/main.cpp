@@ -3,8 +3,8 @@
 #include <iostream>
 #include <random>
 
-#define ROWS 3
-#define COLS 3
+#define ROWS 2
+#define COLS 2
 
 void print_matrix(int **matrix);
 int matrix_det(int **matrix);
@@ -17,7 +17,7 @@ int main() {
   for (int i = 0; i < ROWS; i++) {
     matrix[i] = new int[COLS];
     for (int j = 0; j < COLS; j++) {
-      matrix[i][j] = j + i * ROWS;
+      matrix[i][j] = rand() % 10;
     }
   }
 
@@ -76,6 +76,9 @@ int matrix_det(int **matrix) {
 
     det -= mult;
     std::cout << '\n';
+
+    if (ROWS == 2)
+      return det;
   }
 
   return det;
