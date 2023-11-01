@@ -1,12 +1,8 @@
 #include "ansi.cpp"
 #include <iostream>
 
-#define COLS 10
+#define COLS 8
 #define ROWS COLS
-
-struct Max {
-  int i, j, value;
-};
 
 int find_max_in_matrix(int **matrix, bool (*fn)(int i, int j));
 
@@ -21,16 +17,31 @@ int main() {
   }
 
   bool (*callbacks[])(int, int) = {
-      [](int i, int j) { return i < j; }, [](int i, int j) { return i > j; },
-      [](int i, int j) { return i > j && COLS - i > j; },
-      [](int i, int j) { return i > j && COLS - i < j; }};
+      [](int i, int j) { return i < j; },
+      [](int i, int j) { return i > j; },
+      [](int i, int j) { return i <= j && COLS - i > j; },
+      [](int i, int j) { return i >= j && COLS - i < j + 2; },
+      [](int i, int j) {
+        return i <= j && COLS - i > j || i >= j && COLS - i < j + 2;
+      },
+      [](int i, int j) {
+        return i >= j && COLS - i > j || i <= j && COLS - i < j + 2;
+      },
+      [](int i, int j) { return i >= j && COLS - i > j; },
+      [](int i, int j) { return i <= j && COLS - i < j + 2; },
+      [](int i, int j) { return COLS - i > j + 1; },
+      [](int i, int j) { return COLS - i <= j; }};
 
   for (auto callback : callbacks)
     find_max_in_matrix(matrix, callback);
 }
 
 int find_max_in_matrix(int **matrix, bool (*callback)(int i, int j)) {
+  struct Max {
+    int i, j, value;
+  };
   Max max = {0, 0, matrix[0][0]};
+
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
       if (callback(i, j) && matrix[i][j] > max.value)
