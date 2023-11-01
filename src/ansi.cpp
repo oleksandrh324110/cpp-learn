@@ -1,6 +1,7 @@
 struct ANSI {
   static const constexpr char *reset = "\033[0m";
 
+  static const constexpr char *gray = "\033[30m";
   static const constexpr char *red = "\033[31m";
   static const constexpr char *green = "\033[32m";
   static const constexpr char *yellow = "\033[33m";
