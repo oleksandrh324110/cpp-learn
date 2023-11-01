@@ -1,46 +1,61 @@
 #include "ansi.cpp"
 #include <iostream>
 
-struct Min {
-  int index, value;
+#define COLS 10
+#define ROWS COLS
+
+struct Max {
+  int i, j, value;
 };
 
-void selectionSort(int arr[], int size) {
-  for (int i = 0; i < size; i++) {
-    std::cout << '\n';
-
-    Min min = {i, arr[i]};
-
-    for (int j = i + 1; j < size; j++) {
-      if (arr[j] < min.value) {
-        min = {j, arr[j]};
-      }
-    }
-
-    if (min.index != i) {
-      int temp = arr[i];
-      arr[i] = arr[min.index];
-      arr[min.index] = temp;
-    }
-
-    for (int k = 0; k < size; k++) {
-      if (k == i) {
-        std::cout << ANSI::bold << ANSI::red << arr[k] << ANSI::reset << ' ';
-      } else if (k == min.index) {
-        std::cout << ANSI::bold << ANSI::green << arr[k] << ANSI::reset << ' ';
-      } else
-        std::cout << ANSI::bold << arr[k] << ANSI::reset << ' ';
-    }
-  }
-  std::cout << '\n';
-}
+int find_max_in_matrix(int **matrix, bool (*fn)(int i, int j));
 
 int main() {
-  int arr[] = {3, 5, 2, 7, 6, 4, 1};
+  int **matrix = new int *[COLS];
 
-  for (int &i : arr) {
-    std::cout << ANSI::bold << i << ANSI::reset << ' ';
+  for (int i = 0; i < COLS; i++) {
+    matrix[i] = new int[ROWS];
+    for (int j = 0; j < ROWS; j++) {
+      matrix[i][j] = i * COLS + j;
+    }
   }
 
-  selectionSort(arr, sizeof(arr) / sizeof(arr[0]));
+  bool (*callbacks[])(int, int) = {
+      [](int i, int j) { return i < j; }, [](int i, int j) { return i > j; },
+      [](int i, int j) { return i > j && COLS - i > j; },
+      [](int i, int j) { return i > j && COLS - i < j; }};
+
+  for (auto callback : callbacks)
+    find_max_in_matrix(matrix, callback);
+}
+
+int find_max_in_matrix(int **matrix, bool (*callback)(int i, int j)) {
+  Max max = {0, 0, matrix[0][0]};
+  for (int i = 0; i < COLS; i++) {
+    for (int j = 0; j < ROWS; j++) {
+      if (callback(i, j) && matrix[i][j] > max.value)
+        max = {i, j, matrix[i][j]};
+    }
+  }
+
+  // printing part
+  auto print_whitespaces = [](int n) { return n < 10 ? "  " : " "; };
+
+  for (int i = 0; i < COLS; i++) {
+    for (int j = 0; j < ROWS; j++) {
+      if (callback(i, j)) {
+        if (i == max.i && j == max.j)
+          std::cout << ANSI::red << ANSI::bold << matrix[i][j] << ANSI::reset
+                    << print_whitespaces(matrix[i][j]);
+        else
+          std::cout << ANSI::blue << ANSI::bold << matrix[i][j] << ANSI::reset
+                    << print_whitespaces(matrix[i][j]);
+      } else
+        std::cout << ANSI::bold << matrix[i][j] << ANSI::reset
+                  << print_whitespaces(matrix[i][j]);
+    }
+    std::cout << '\n';
+  }
+  std::cout << '\n';
+  return max.value;
 }
