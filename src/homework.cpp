@@ -1,10 +1,10 @@
 #include "ansi.cpp"
 #include <iostream>
 
-#define COLS 8
+#define COLS 10
 #define ROWS COLS
 
-int find_max_in_matrix(int **matrix, bool (*fn)(int i, int j));
+int find_max_in_matrix(int **matrix, bool (*callback)(int i, int j));
 
 int main() {
   int **matrix = new int *[COLS];
@@ -12,7 +12,7 @@ int main() {
   for (int i = 0; i < COLS; i++) {
     matrix[i] = new int[ROWS];
     for (int j = 0; j < ROWS; j++) {
-      matrix[i][j] = i * COLS + j;
+      matrix[i][j] = COLS * i + j;
     }
   }
 
