@@ -1,11 +1,10 @@
+#include "ansi.cpp"
 #include <functional>
 #include <iostream>
 #include <vector>
 
-#include "ansi.cpp"
-
-#define COLS 10
-#define ROWS COLS
+#define ROWS 10
+#define COLS ROWS
 
 int find_max_in_matrix(const std::vector<std::vector<int>> &matrix,
                        const std::function<bool(int, int)> &callback);
