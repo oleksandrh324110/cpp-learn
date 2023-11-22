@@ -1,5 +1,5 @@
 CC = c++
-CFLAGS = -std=c++14 -O0
+CFLAGS = -std=c++17 -O0
 LDFLAGS =
 
 SRCS = $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)

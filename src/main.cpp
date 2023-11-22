@@ -1,23 +1,25 @@
 #include <iostream>
-#include <vector>
 
-template <typename T>
-int binary_search(std::vector<T> &v, int left, int right, T value_to_find) {
-  int middle = left + (right - left) / 2;
-
-  if (left == middle)
-    return value_to_find == v[middle] ? middle : -1;
-  if (value_to_find < v[middle])
-    return binary_search(v, left, middle, value_to_find);
-  if (value_to_find > v[middle])
-    return binary_search(v, middle, right, value_to_find);
-  return middle;
+void bubble_sort(int *arr, int size) {
+  while (size) {
+    int max_index = 0;
+    for (int i = 1; i < size; i++) {
+      if (arr[i] > arr[i - 1]) {
+        std::swap(arr[i], arr[i - 1]);
+        max_index = i;
+      }
+    }
+    size = max_index;
+  }
 }
 
 int main() {
-  std::vector<int> v = {-3, -2, -1, 0, 1, 2, 3};
+  int arr[] = {1, 3, 2, 5, 4};
 
-  for (auto el : v) {
-    std::cout << binary_search(v, 0, v.size(), el) << ' ';
+  bubble_sort(arr, std::size(arr));
+
+  for (int i : arr) {
+    std::cout << i << ' ';
   }
+  std::cout << '\n';
 }
