@@ -1,9 +1,10 @@
 #include <iostream>
 
-void selection_sort(int *arr, const int size) {
+template <typename T> void selection_sort(T *arr, const int size) {
   for (int i = 0; i < size; i++) {
     struct {
-      int index, value;
+      int index;
+      T value;
     } max = {i, arr[i]};
 
     for (int j = i + 1; j < size; j++) {
