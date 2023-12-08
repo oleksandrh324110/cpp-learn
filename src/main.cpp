@@ -1,26 +1,37 @@
-#include <chrono>
 #include <iostream>
-#include <thread>
+#include <vector>
+#include <unordered_set>
 
-void profiler() {
-  using namespace std::chrono;
+int longestConsecutive(std::vector<int>& nums) {
+  std::unordered_set<int> set;
 
-  auto now = system_clock::now();
-  static auto start = now;
+  for (const int num : nums) {
+    set.insert(num);
+  }
 
-  std::cout << std::fixed;
-  std::cout << "now: " << duration_cast<seconds>(now.time_since_epoch()).count() << "s";
-  if (now != start)
-    std::cout << "; duration: " << duration_cast<milliseconds>(now - start).count() << "ms";
-  std::cout << '\n';
+  int max = 0;
+  while (set.size()) {
+    const int num = *set.begin();
+
+    int max_buff = 1;
+    set.erase(num);
+
+    for (int i = 1; set.count(num + i); i++) {
+      max_buff++;
+      set.erase(num + i);
+    }
+    for (int i = 1; set.count(num - i); i++) {
+      max_buff++;
+      set.erase(num - i);
+    }
+    max = std::max(max, max_buff);
+  }
+
+  return max;
 }
 
 int main() {
-  profiler();
+  std::vector<int> v = { 4,0,-4,-2,2,5,2,0,-8,-8,-8,-8,-1,7,4,5,5,-4,6,6,-3 };
 
-  using namespace std::literals::chrono_literals;
-
-  std::this_thread::sleep_for(1s);
-
-  profiler();
+  std::cout << longestConsecutive(v) << '\n';
 }
