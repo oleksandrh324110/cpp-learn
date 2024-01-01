@@ -1,6 +1,6 @@
 CC = c++
 CFLAGS = -std=c++17 -O0
-LDFLAGS =
+LDFLAGS = 
 
 SRCS = $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJS  = $(SRCS:.cpp=.o)
