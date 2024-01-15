@@ -1,8 +1,14 @@
 #include <iostream>
-#include <iomanip>
+#include <vector>
 
 int main() {
-  float f = 0.7f;
+  std::vector<int> v = {  };
 
-  std::cout << std::fixed << std::setprecision(8) << f;
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(3);
+  v.push_back(4);
+  v.push_back(5);
+
+  std::cout << v.size() << ' ' << v.capacity() << '\n';
 }
