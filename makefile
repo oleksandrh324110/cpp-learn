@@ -1,9 +1,9 @@
-CC = c++
-CFLAGS = -std=c++17 -O0
-LDFLAGS =
+CC := c++
+CFLAGS := -std=c++17 -O0
+LDFLAGS :=
 
 SRCS = $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
-OBJS  = $(SRCS:.cpp=.o)
+OBJS = $(SRCS:.cpp=.o)
 
 all: compile link run
 
@@ -13,10 +13,10 @@ compile: $(OBJS)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 link:
-	$(CC) $(OBJS) -o bin/main $(LDFLAGS)
+	$(CC) $(OBJS) -o bin/main.exe $(LDFLAGS)
 
 run:
-	bin/main
+	bin/main.exe
 
 clean:
 	rm $(OBJS)
