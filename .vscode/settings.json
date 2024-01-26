@@ -1,0 +1,13 @@
+{
+	"files.associations": {
+		"*.css": "css",
+		"*.mdx": "mdx",
+<<<<<<< HEAD
+		"iostream": "cpp"
+=======
+		"iostream": "cpp",
+		"stack": "cpp",
+		"vector": "cpp"
+>>>>>>> macos
+	}
+}
