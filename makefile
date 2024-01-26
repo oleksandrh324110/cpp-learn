@@ -1,19 +1,25 @@
-CC = c++
-CFLAGS = -std=c++17 -O0
+OS = $(shell uname -s)
+
+CXX = c++
+CXXFLAGS = -std=c++17 -O0
 LDFLAGS = 
 
 SRCS = $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
 OBJS  = $(SRCS:.cpp=.o)
+
+ifeq ($(OS), Darwin) 
+	CXX = clang++
+endif
 
 all: compile link run
 
 compile: $(OBJS)
 
 %.o: %.cpp
-	$(CC) -c $< -o $@ $(CFLAGS)
+	$(CXX) -c $< -o $@ $(CXXFLAGS)
 
 link:
-	$(CC) $(OBJS) -o bin/main $(LDFLAGS)
+	$(CXX) $(OBJS) -o bin/main $(LDFLAGS)
 
 run:
 	bin/main
