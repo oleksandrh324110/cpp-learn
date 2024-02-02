@@ -1,37 +1,32 @@
 #include <iostream>
 #include <vector>
-#include <set>
-#include <map>
-#include <unordered_set>
-#include <unordered_map> 
+#include <stack>
 
-int lengthOfLongestSubstring(std::string s) {
-  std::unordered_map<char, int> map;
 
-  int max = 0;
-  int buffMax = 0;
+std::vector<int> dailyTemperatures(std::vector<int>& temperatures) {
+  std::vector<int> res(temperatures.size());
 
-  for (int i = 0; i < s.length(); i++) {
-    map[s[i]] = i;
-    buffMax++;
+  struct StackElement { int index, temperature; };
+  std::stack<StackElement> stack;
 
-    for (int j = i + 1; j < s.length(); j++) {
-      if (map.count(s[j])) {
-        i = map[s[j]];
-        break;
-      }
-      map[s[j]] = j;
-      buffMax++;
+  for (int i = 0; i < temperatures.size(); i++) {
+    while (!stack.empty() && temperatures[i] > stack.top().temperature) {
+      res[stack.top().index] = i - stack.top().index;
+      stack.pop();
     }
 
-    max = std::max(max, buffMax);
-    buffMax = 0;
-    map.clear();
+    stack.push({ i, temperatures[i] });
   }
 
-  return max;
+  return res;
 }
 
 int main() {
-  std::cout << lengthOfLongestSubstring("dvdf") << '\n';
+  std::vector<int> v = { 73,74,75,71,69,72,76,73 };
+
+  std::vector<int> res = dailyTemperatures(v);
+
+  for (const int i : res) {
+    std::cout << i << ' ';
+  }
 }
