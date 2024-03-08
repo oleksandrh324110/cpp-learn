@@ -7,15 +7,16 @@ endif
 
 CXXFLAGS = -std=c++11 -Wall -Wextra -Wpedantic
 CXXFLAGS +=
+LDFLAGS = -lm
 
 ifeq ($(target), linux)
 	CXX = g++
 	CXXFLAGS +=
-	LDFLAGS += -lm
+	LDFLAGS +=
 else ifeq ($(target), darwin)
 	CXX = clang++
 	CXXFLAGS +=
-	LDFLAGS += -lm
+	LDFLAGS +=
 endif
 
 SRC := $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
