@@ -5,70 +5,92 @@
 #include <algorithm>
 #include <numeric>
 #include <stdexcept>
+#include <iterator>
+#include <initializer_list>
 
 template <typename T, size_t _size>
-class Vector {
+class vector {
 public:
-  Vector(T& data[_size]) {
-    std::copy(std::begin(data), std::end(data), std::begin(_data));
+  vector(std::initializer_list<T> initList) {
+    if (initList.size() > _size)
+      throw std::out_of_range("Initializer list is too large");
+    std::copy(initList.begin(), initList.end(), _data);
+    if (initList.size() < _size)
+      std::fill(_data + initList.size(), _data + _size, 0);
   }
-  ~Vector();
+  vector(const vector& other) {
+    std::copy(std::begin(other._data), std::end(other._data), std::begin(_data));
+  }
+  vector(T(&arr)[_size]) {
+    std::copy(std::begin(arr), std::end(arr), std::begin(_data));
+  }
+  vector() {};
+  ~vector() {};
 
-  T& operator[](const size_t index) {
-    return _data[index];
-  };
+  T& operator[](size_t index) { return _data[index]; }
+  T operator[](size_t index) const { return _data[index]; }
   T& at(const size_t index) {
-    if (index > _size - 1) {
-      throw std::out_of_range("Index out of Vector range");
-    }
+    if (index > _size - 1)
+      throw std::out_of_range("Index out of vector range");
     return _data[index];
   }
+  T at(const size_t index) const {
+    if (index > _size - 1)
+      throw std::out_of_range("Index out of vector range");
+    return _data[index];
+  }
+  T* begin() { return _data; }
+  T* end() { return _data + _size + 1; }
+  const T* begin() const { return _data; }
+  const T* end() const { return _data + _size + 1; }
 
-  size_t size() {
-    return _size;
-  };
+  size_t size() const { return _size; }
 
-  template <typename K> Vector& multiply(K value) {
-    Vector<T, _size> res;
-    for (int i = 0; i < _size; i++) {
-      res[i] = _data[i] * value;
-    } return res;
-  };
-  template <typename K> Vector& divide(K value) {
-    Vector<T, _size> res;
-    for (int i = 0; i < _size; i++) {
-      res[i] = _data[i] / value;
-    } return res;
-  };
+  template <typename K>
+  vector scale(K value) const {
+    vector<T, _size> res;
+    std::transform(
+      begin(),
+      end(),
+      res.begin(),
+      [value](T item) { return item * value; });
+    return res;
+  }
 
-  Vector& add(Vector<T, _size>& other) {
-    Vector<T, _size> res;
-    for (int i = 0; i < _size; i++) {
+  vector add(const vector& other) const {
+    vector<T, _size> res;
+    for (size_t i = 0; i < _size; i++) {
       res[i] = _data[i] + other[i];
     } return res;
-  };
-  Vector& sub(Vector<T, _size>& other) {
-    Vector<T, _size> res;
-    for (int i = 0; i < _size; i++) {
+  }
+  vector sub(const vector& other) const {
+    vector<T, _size> res;
+    for (size_t i = 0; i < _size; i++) {
       res[i] = _data[i] - other[i];
     } return res;
   }
-  double dot(Vector<T, _size>& other) {
+  double dot(const vector& other) const {
     double product = 0;
-    for (int i = 0; i < _size; i++) {
-      product += _data
+    for (size_t i = 0; i < _size; i++) {
+      product += _data[i] * other[i];
     } return product;
-  };
+  }
 
-  double length() {
-    return std::sqrt(std::accumulate(
-      std::begin(_data),
-      std::end(_data), 0,
-      [](double prev, double curr) { return prev + curr * curr; }));
-  };
+  double length() const {
+    return
+      std::sqrt(
+        std::accumulate(
+          std::begin(_data),
+          std::end(_data), (double)0,
+          [](double prev, double curr) { return prev + curr * curr; }));
+  }
 
-  Vector& normalize() {
-    return this->divide(this->length());
+  vector normalize() const { return scale(1 / length()); }
+
+  void print() const {
+    for (size_t i = 0; i < _size; i++) {
+      std::cout << _data[i] << ' ';
+    } std::cout << '\n';
   }
 
 private:

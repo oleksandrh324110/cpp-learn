@@ -5,7 +5,7 @@ ifndef target
 $(error target is NOT defined)
 endif
 
-CXXFLAGS = -std=c++11 -Wall -Wextra -Wpedantic
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -MMD -MP
 CXXFLAGS +=
 LDFLAGS = -lm
 
@@ -19,8 +19,9 @@ else ifeq ($(target), darwin)
 	LDFLAGS +=
 endif
 
-SRC := $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
-OBJ := $(SRC:.cpp=.o)
+SRC = $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
+OBJ = $(SRC:.cpp=.o)
+DEP = $(SRC:.cpp=.d)
 
 .PHONY: all clean
 
@@ -28,7 +29,7 @@ all: compile link run
 
 compile: $(OBJ)
 	
-%.o: %.c
+%.o: %.cpp %.h
 	$(CXX) -o $@ -c $< $(CXXFLAGS)
 
 link:
@@ -36,3 +37,8 @@ link:
 
 run:
 	./bin/main.exe
+
+clean:
+	rm $(OBJ) $(DEP)
+
+-include $(DEP)
