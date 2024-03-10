@@ -8,6 +8,8 @@
 #include <iterator>
 #include <initializer_list>
 
+#include "vector.h"
+
 template <typename T, size_t _rows, size_t _cols>
 class matrix {
 public:
@@ -33,6 +35,8 @@ public:
   }
   matrix() {};
   ~matrix() {};
+
+  T* operator[](size_t index) { return _data[index]; }
 
   T* begin() { return &_data[0][0]; }
   const T* begin() const { return &_data[0][0]; }

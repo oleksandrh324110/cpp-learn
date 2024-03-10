@@ -4,9 +4,9 @@
 #include "math/matrix.h"
 
 int main() {
-  vector<float, 2> v = { 0, 1 };
+  matrix<float, 2, 2> m = { {1, 2}, {3, 4} };
 
-  v = 2 * v;
+  m[0][0] = 2;
 
-  v.print();
+  m.print();
 }

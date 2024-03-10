@@ -29,8 +29,6 @@ public:
 
   T& operator[](size_t index) { return _data[index]; }
   T operator[](size_t index) const { return _data[index]; }
-  T& at(const size_t index) { check_range(index); return _data[index]; }
-  T at(const size_t index) const { check_range(index); return _data[index]; }
 
   T* begin() { return _data; }
   const T* begin() const { return _data; }
@@ -88,12 +86,6 @@ public:
     for (size_t i = 0; i < _size; i++) {
       std::cout << _data[i] << ' ';
     } std::cout << '\n';
-  }
-
-private:
-  void check_range(size_t index) {
-    if (index > _size - 1)
-      throw std::out_of_range("Index out of vector range");
   }
 
 private:
