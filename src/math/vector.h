@@ -12,8 +12,7 @@ template <typename T, size_t _size>
 class vector {
 public:
   vector(std::initializer_list<T> initList) {
-    if (initList.size() > _size)
-      throw std::out_of_range("Initializer list is too large");
+    check_range(initList.size());
     std::copy(initList.begin(), initList.end(), _data);
     if (initList.size() < _size)
       std::fill(_data + initList.size(), _data + _size, 0);
@@ -29,19 +28,12 @@ public:
 
   T& operator[](size_t index) { return _data[index]; }
   T operator[](size_t index) const { return _data[index]; }
-  T& at(const size_t index) {
-    if (index > _size - 1)
-      throw std::out_of_range("Index out of vector range");
-    return _data[index];
-  }
-  T at(const size_t index) const {
-    if (index > _size - 1)
-      throw std::out_of_range("Index out of vector range");
-    return _data[index];
-  }
+  T& at(const size_t index) { check_range(index); return _data[index]; }
+  T at(const size_t index) const { check_range(index); return _data[index]; }
+
   T* begin() { return _data; }
-  T* end() { return _data + _size + 1; }
   const T* begin() const { return _data; }
+  T* end() { return _data + _size + 1; }
   const T* end() const { return _data + _size + 1; }
 
   size_t size() const { return _size; }
@@ -50,9 +42,7 @@ public:
   vector scale(K value) const {
     vector<T, _size> res;
     std::transform(
-      begin(),
-      end(),
-      res.begin(),
+      begin(), end(), res.begin(),
       [value](T item) { return item * value; });
     return res;
   }
@@ -91,6 +81,12 @@ public:
     for (size_t i = 0; i < _size; i++) {
       std::cout << _data[i] << ' ';
     } std::cout << '\n';
+  }
+
+private:
+  void check_range(size_t index) {
+    if (index > _size - 1)
+      throw std::out_of_range("Index out of vector range");
   }
 
 private:
