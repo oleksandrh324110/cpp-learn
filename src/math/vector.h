@@ -22,7 +22,9 @@ public:
   vector(T(&arr)[_size]) {
     std::copy(std::begin(arr), std::end(arr), begin());
   }
-  vector() {};
+  vector() {
+    std::fill(begin(), end(), 0);
+  };
   ~vector() {};
 
   T& operator[](size_t index) { return _data[index]; }
