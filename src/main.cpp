@@ -4,9 +4,10 @@
 #include "math/matrix.h"
 
 int main() {
-  matrix<float, 2, 2> m = { {1, 2}, {3, 4} };
+  matrix<char, 3, 2> m1 = { {1,2}, {3,4}, {5,6} };
+  matrix<char, 2, 3> m2 = { {1,2,3}, {4,5,6} };
 
-  m[0][0] = 2;
+  m1 = m1.mult(m2);
 
-  m.print();
+  m1.print();
 }

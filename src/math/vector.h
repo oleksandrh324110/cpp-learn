@@ -14,8 +14,6 @@ public:
   vector(std::initializer_list<T> initList) {
     if (initList.size() > _size)
       throw std::out_of_range("Initializer list size exceeds vector size");
-    if (initList.size() < _size)
-      throw std::runtime_error("Vector initialization incomplete");
     std::copy(initList.begin(), initList.end(), _data);
   }
   vector(const vector& other) {
@@ -75,8 +73,8 @@ public:
     return
       std::sqrt(
         std::accumulate(
-          std::begin(_data),
-          std::end(_data), (double)0,
+          begin(),
+          end(), (double)0,
           [](double prev, double curr) { return prev + curr * curr; }));
   }
 
@@ -84,7 +82,10 @@ public:
 
   void print() const {
     for (size_t i = 0; i < _size; i++) {
-      std::cout << _data[i] << ' ';
+      if constexpr (std::is_same<T, char>::value)
+        std::cout << (int)_data[i] << ' ';
+      else
+        std::cout << _data[i] << ' ';
     } std::cout << '\n';
   }
 
