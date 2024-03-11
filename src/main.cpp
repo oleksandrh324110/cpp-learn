@@ -4,10 +4,9 @@
 #include "math/matrix.h"
 
 int main() {
-  matrix<char, 3, 2> m1 = { {1,2}, {3,4}, {5,6} };
-  matrix<char, 2, 3> m2 = { {1,2,3}, {4,5,6} };
+  matrix<short, 3, 3> m = { {1, 2, 3},{4, 5, 6},{7, 8, 9} };
 
-  m1 = m1.mult(m2);
+  std::cout << m.det() << '\n';
 
-  m1.print();
+  m.print();
 }

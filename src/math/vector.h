@@ -45,7 +45,7 @@ public:
   vector operator*(double value) const { return scale(value); }
   vector operator/(double value) const { return scale(1.0 / value); }
 
-  vector add(const vector& other) const {
+  vector sum(const vector& other) const {
     vector<T, _size> res;
     for (size_t i = 0; i < _size; i++) {
       res[i] = _data[i] + other[i];
@@ -82,7 +82,7 @@ public:
 
   void print() const {
     for (size_t i = 0; i < _size; i++) {
-      if constexpr (std::is_same<T, char>::value)
+      if constexpr (std::is_same<T, char>::value || std::is_same<T, unsigned char>::value)
         std::cout << (int)_data[i] << ' ';
       else
         std::cout << _data[i] << ' ';
