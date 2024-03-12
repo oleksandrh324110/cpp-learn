@@ -7,7 +7,7 @@ endif
 
 CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -MMD -MP
 CXXFLAGS +=
-LDFLAGS = -lm
+LDFLAGS =
 
 ifeq ($(target), linux)
 	CXX = g++
