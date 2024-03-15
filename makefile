@@ -7,7 +7,7 @@ endif
 
 CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -MMD -MP
 CXXFLAGS +=
-LDFLAGS = -lm
+LDFLAGS =
 
 ifeq ($(target), linux)
 	CXX = g++
@@ -29,7 +29,7 @@ all: compile link run
 
 compile: $(OBJ)
 	
-%.o: %.cpp %.h
+%.o: %.cpp
 	$(CXX) -o $@ -c $< $(CXXFLAGS)
 
 link:
