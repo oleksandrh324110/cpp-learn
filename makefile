@@ -5,9 +5,9 @@ ifndef target
 $(error target is NOT defined)
 endif
 
-CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -MMD -MP
+CXXFLAGS = -std=c++17 -O0 -Wall -Wextra -Wpedantic -MMD -MP
 CXXFLAGS +=
-LDFLAGS = -lm
+LDFLAGS =
 
 ifeq ($(target), linux)
 	CXX = g++
@@ -19,7 +19,7 @@ else ifeq ($(target), darwin)
 	LDFLAGS +=
 endif
 
-SRC = $(wildcard src/*.cpp) $(wildcard src/**/*.cpp) $(wildcard src/**/**/*.cpp) $(wildcard src/**/**/**/*.cpp)
+SRC = $(shell find src -name "*.cpp")
 OBJ = $(SRC:.cpp=.o)
 DEP = $(SRC:.cpp=.d)
 
@@ -29,7 +29,7 @@ all: compile link run
 
 compile: $(OBJ)
 	
-%.o: %.cpp %.h
+%.o: %.cpp
 	$(CXX) -o $@ -c $< $(CXXFLAGS)
 
 link:
