@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cstddef>
 #include <cmath>
 #include <algorithm>
@@ -31,15 +32,24 @@ public:
 		for (size_t i = 0; i < _rows; i++)
 			std::copy(std::begin(arr[i]), std::end(arr[i]), std::begin(_data[i]));
 	}
-	matrix() {
-		std::fill(begin(), end(), 0);
-	};
+	matrix() {};
+	matrix(double value) {
+		std::fill(begin(), end(), value);
+	}
 	matrix& operator=(const matrix& other) {
 		if (this != &other)
 			std::copy(other.begin(), other.end(), begin());
 		return *this;
 	}
 	~matrix() {};
+
+	bool operator==(const matrix<T, _rows, _cols>& other) const {
+		for (size_t i = 0; i < _rows; i++)
+			for (size_t j = 0; j < _cols; j++)
+				if (_data[i][j] != other[i][j])
+					return false;
+		return true;
+	}
 
 	inline size_t rows() const { return _rows; }
 	inline size_t cols() const { return _cols; }
@@ -72,7 +82,7 @@ public:
 
 	template <size_t other_cols>
 	matrix<T, _rows, other_cols> mult(const matrix<T, _cols, other_cols>& other) const {
-		matrix<T, _rows, other_cols> res;
+		matrix<T, _rows, other_cols> res(0);
 		for (size_t i = 0; i < _rows; i++)
 			for (size_t j = 0; j < other_cols; j++)
 				for (size_t k = 0; k < _cols; k++)

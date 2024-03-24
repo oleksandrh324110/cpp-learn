@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <cstddef>
 #include <cmath>
 #include <algorithm>
@@ -22,15 +23,23 @@ public:
 	vector(T(&arr)[_size]) {
 		std::copy(std::begin(arr), std::end(arr), begin());
 	}
-	vector() {
-		std::fill(begin(), end(), 0);
-	};
+	vector() {};
+	vector(double value) {
+		std::fill(begin(), end(), value);
+	}
 	vector& operator=(const vector& other) {
 		if (this != &other)
 			std::copy(other.begin(), other.end(), begin());
 		return *this;
 	}
 	~vector() {};
+
+	bool operator==(const vector<T, _size>& other) const {
+		for (size_t i = 0; i < _size; i++)
+			if (_data[i] != other[i])
+				return false;
+		return true;
+	}
 
 	T& operator[](size_t index) { return _data[index]; }
 	T operator[](size_t index) const { return _data[index]; }
