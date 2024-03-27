@@ -92,6 +92,14 @@ public:
 	template <size_t other_cols>
 	matrix<T, _rows, other_cols> operator*(const matrix<T, _cols, other_cols>& other) const { return mult(other); }
 
+	matrix scale(double value) {
+		matrix result = *this;
+		std::transform(begin(), end(), result.begin(), [value](T item) { return item * value; });
+		return result;
+	}
+	matrix operator*(double value) { return scale(value); }
+	matrix operator/(double value) { return scale(1.0 / value); }
+
 	double det() const {
 		static_assert(_rows == _cols, "Determinant can only be calculated for square matrices");
 

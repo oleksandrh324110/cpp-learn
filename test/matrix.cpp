@@ -64,6 +64,24 @@ TEST(MatrixTest, MultiplicationTest) {
   EXPECT_EQ(m3[1][1], 50);
 }
 
+TEST(MatrixTest, ScaleByScalarTest) {
+  matrix<int, 2, 2> m1{ {1, 2}, {3, 4} };
+  matrix<int, 2, 2> m2 = m1.scale(2);
+  EXPECT_EQ(m2[0][0], 2);
+  EXPECT_EQ(m2[0][1], 4);
+  EXPECT_EQ(m2[1][0], 6);
+  EXPECT_EQ(m2[1][1], 8);
+}
+
+TEST(MatrixTest, DivisionByScalarTest) {
+  matrix<double, 2, 2> m1{ {2.0, 4.0}, {6.0, 8.0} };
+  matrix<double, 2, 2> m2 = m1 / 2.0;
+  EXPECT_NEAR(m2[0][0], 1.0, 1e-6);
+  EXPECT_NEAR(m2[0][1], 2.0, 1e-6);
+  EXPECT_NEAR(m2[1][0], 3.0, 1e-6);
+  EXPECT_NEAR(m2[1][1], 4.0, 1e-6);
+}
+
 TEST(MatrixTest, DeterminantTest) {
   matrix<int, 2, 2> m1{ {1, 2}, {3, 4} };
   EXPECT_EQ(m1.det(), -2);
