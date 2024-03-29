@@ -29,6 +29,10 @@ public:
     _length = size;
     _string = new char[_length];
   }
+  ~string() {
+    _length = 0;
+    delete[] _string;
+  }
 
   bool operator==(const string& other) const {
     if (_length != other._length)
@@ -50,6 +54,9 @@ public:
     return res;
   }
 
+  void insert(size_t offset, const string& other) {
+  }
+
   inline size_t length() const { return _length; }
 
   void print() const {
@@ -62,10 +69,10 @@ private:
 };
 
 int main() {
-  string str = "hello ";
+  string str = "hello";
   string str1 = str;
 
-  string str2 = str + str1;
+  str.insert(1, str1);
 
-  str2.print();
+  str.print();
 }
