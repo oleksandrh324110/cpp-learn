@@ -1,47 +1,71 @@
 #include <iostream>
-#include <typeinfo>
 
-class fraction {
+size_t strlen(const char* str) {
+  size_t len = 0;
+  while (*str++) len++;
+  return len;
+}
+
+class string {
 public:
-  fraction(double numerator, double denominator) : _value(numerator / denominator) {}
-  fraction(const fraction& other) : _value(other.value()) {}
-  fraction(double value) : _value(value) {}
-  fraction() : _value(0) {}
-  fraction& operator=(const fraction& other) {
-    if (this != &other)
-      _value = other.value();
-    return *this;
+  string(const char* str) {
+    size_t str_len = strlen(str);
+    _length = str_len;
+    _string = new char[str_len];
+    while (*_string++ = *str++) {}
+    _string -= str_len + 1;
   }
-  ~fraction() {}
+  string(const string& other) : _length(other._length) {
+    _string = new char[other._length];
+    char* other_string = other._string;
+    while (*_string++ = *other_string++) {}
+    _string -= _length + 1;
+  }
+  string(string&& other) : _length(other._length), _string(other._string) {
+    other._length = 0;
+    other._string = nullptr;
+  }
+  string(size_t size) {
+    _length = size;
+    _string = new char[_length];
+  }
 
-  double value() const { return _value; }
+  bool operator==(const string& other) const {
+    if (_length != other._length)
+      return false;
+    for (size_t i = 0; i < _length; i++)
+      if (_string[i] != other._string[i])
+        return false;
+    return true;
+  }
 
-  fraction sum(const fraction& other) const { return fraction(_value + other.value()); }
-  fraction sub(const fraction& other) const { return fraction(_value - other.value()); }
-  fraction mult(const fraction& other) const { return fraction(_value * other.value()); }
-  fraction div(const fraction& other) const { return fraction(_value / other.value()); }
-  fraction operator+(const fraction& other) const { return sum(other); }
-  fraction operator-(const fraction& other) const { return sub(other); }
-  fraction operator*(const fraction& other) const { return mult(other); }
-  fraction operator/(const fraction& other) const { return div(other); }
+  string operator+(const string& other) const {
+    string res(_length + other._length);
+    char* string_copy = _string;
+    char* other_string = other._string;
+    while (*res._string++ = *string_copy++) {}
+    res._string--;
+    while (*res._string++ = *other_string++) {}
+    res._string -= res._length + 1;
+    return res;
+  }
+
+  inline size_t length() const { return _length; }
 
   void print() const {
-    std::cout << _value << '\n';
+    std::cout << _string << '\n';
   }
 
 private:
-  double _value;
+  size_t _length;
+  char* _string;
 };
 
-fraction operator+(double value, const fraction& other) { return other.sum(value); }
-fraction operator-(double value, const fraction& other) { return other.sub(value); }
-fraction operator*(double value, const fraction& other) { return other.mult(value); }
-fraction operator/(double value, const fraction& other) { return other.div(value); }
-
 int main() {
-  fraction f = fraction(1);
+  string str = "hello ";
+  string str1 = str;
 
-  const std::type_info& type_id = typeid(f);
+  string str2 = str + str1;
 
-  std::cout << "The type of f is: " << type_id.name() << "\n";
+  str2.print();
 }

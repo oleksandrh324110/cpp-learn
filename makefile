@@ -5,7 +5,7 @@ ifndef target
 $(error target is NOT defined)
 endif
 
-CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -MMD -MP
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wpedantic -Wno-parentheses -MMD -MP
 CXXFLAGS +=
 LDFLAGS =
 
