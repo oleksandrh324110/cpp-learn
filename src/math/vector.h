@@ -40,6 +40,9 @@ public:
 				return false;
 		return true;
 	}
+	bool operator!=(const vector<T, _size>& other) const {
+		return !(*this == other);
+	}
 
 	T& operator[](size_t index) { return _data[index]; }
 	T operator[](size_t index) const { return _data[index]; }
@@ -121,9 +124,4 @@ private:
 template <typename T, size_t _size>
 vector<T, _size> operator*(double value, const vector<T, _size>& vec) {
 	return vec.scale(value);
-}
-
-template <typename T, size_t _size>
-vector<T, _size> operator/(double value, const vector<T, _size>& vec) {
-	return vec.scale(1.0 / value);
 }
