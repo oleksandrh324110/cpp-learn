@@ -181,3 +181,13 @@ public:
 private:
 	T _data[_rows][_cols];
 };
+
+
+template <typename T, size_t _rows, size_t _cols>
+matrix<T, _rows, _cols> operator*(double value, matrix<T, _rows, _cols> matrix) {
+	return matrix.scale(value);
+}
+template <typename T, size_t _rows, size_t _cols>
+matrix<T, _rows, _cols> operator/(double value, matrix<T, _rows, _cols> matrix) {
+	return matrix.scale(1 / value);
+}
