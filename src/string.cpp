@@ -6,6 +6,11 @@ size_t strlen(const char* str) {
   return len;
 }
 
+string::string() {
+  _length = 0;
+  _string = nullptr;
+}
+
 string::string(const char* str) {
   size_t str_len = strlen(str);
   _length = str_len;
@@ -22,6 +27,20 @@ string::string(const string& other) : _length(other._length) {
   _string -= _length + 1;
 }
 string::string(string&& other) : _length(other._length), _string(other._string) {
+  other._length = 0;
+  other._string = nullptr;
+}
+void string::operator=(string& other) {
+  _length = other._length;
+  _string = new char[other._length + 1];
+  _string[_length] = '\0';
+  char* other_string = other._string;
+  while (*_string++ = *other_string++) {}
+  _string -= _length + 1;
+}
+void string::operator=(string&& other) {
+  _length = other._length;
+  _string = other._string;
   other._length = 0;
   other._string = nullptr;
 }
@@ -56,8 +75,7 @@ bool string::operator==(const std::string& std_other) const {
   return true;
 }
 
-bool string::operator!=(const string& other) const
-{
+bool string::operator!=(const string& other) const {
   return !(*this == other);
 }
 
@@ -106,11 +124,20 @@ string string::substr(size_t index, size_t length) const {
   } return res;
 }
 
+inline const char* string::c_str() const {
+  return _string;
+}
+
 void string::print() const {
   std::cout << _string << '\n';
 }
 
-std::ostream& operator<<(std::ostream& stream, const string& str) {
-  str.print();
-  return stream;
+void operator<<(std::ostream& stream, const string& str) {
+  stream << str.c_str();
+}
+
+void operator>>(std::istream& stream, string& str) {
+  std::string input;
+  std::getline(stream, input);
+  str = string(input.c_str());
 }

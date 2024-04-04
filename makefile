@@ -23,7 +23,7 @@ SRC = $(shell find src -name "*.cpp")
 OBJ = $(SRC:.cpp=.o)
 DEP = $(SRC:.cpp=.d)
 
-TEST_SRC = $(SRC) $(shell find test -name "*.cpp")
+TEST_SRC = $(shell find src test -name "*.cpp" -not -wholename "src/main.cpp")
 TEST_OBJ = $(TEST_SRC:.cpp=.o)
 TEST_DEP = $(TEST_SRC:.cpp=.d)
 

@@ -1,6 +1,7 @@
+#include <gtest/gtest.h>
+#include <sstream>
 #include <string>
 
-#include "gtest/gtest.h"
 #include "../src/string.h"
 
 TEST(StringTest, CharConstructor) {
@@ -65,4 +66,20 @@ TEST(StringTest, Print) {
   std::string output = testing::internal::GetCapturedStdout();
   string expected = "Hello\n";
   EXPECT_EQ(expected, output);
+}
+
+TEST(StringTest, OutputStreamOperator) {
+  string s("Hello");
+  std::ostringstream os;
+  os << s;
+  std::string expected = "Hello";
+  EXPECT_EQ(expected, os.str());
+}
+
+TEST(StringTest, InputStreamOperator) {
+  std::istringstream is("Hello");
+  string s;
+  is >> s;
+  string expected = "Hello";
+  EXPECT_EQ(expected, s);
 }
