@@ -50,7 +50,6 @@ string::string(size_t size) {
   _string[_length] = '\0';
 }
 string::~string() {
-  _length = 0;
   delete[] _string;
 }
 
@@ -74,9 +73,11 @@ bool string::operator==(const std::string& std_other) const {
       return false;
   return true;
 }
-
 bool string::operator!=(const string& other) const {
   return !(*this == other);
+}
+bool string::operator!=(const std::string& std_other) const {
+  return !(*this == std_other);
 }
 
 string string::operator+(const string& other) const {

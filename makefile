@@ -30,7 +30,7 @@ TEST_DEP = $(TEST_SRC:.cpp=.d)
 libs:
 	cd libs/googletest && cmake . && make
 
-all: compile link run
+all: compile link run-wholename
 test: compile_test link_test run_test
 
 compile: $(OBJ)
