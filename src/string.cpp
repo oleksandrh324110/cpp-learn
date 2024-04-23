@@ -1,18 +1,16 @@
 #include "string.h"
 
-size_t strlen(const char* str) {
+size_t _strlen(const char* str) {
   size_t len = 0;
   while (*str++) len++;
   return len;
 }
-
 string::string() {
   _length = 0;
   _string = nullptr;
 }
-
 string::string(const char* str) {
-  size_t str_len = strlen(str);
+  size_t str_len = _strlen(str);
   _length = str_len;
   _string = new char[str_len + 1];
   _string[str_len] = '\0';
@@ -49,11 +47,37 @@ string::string(size_t size) {
   _string = new char[_length + 1];
   _string[_length] = '\0';
 }
+string::string(int number) {
+  std::stringstream ss;
+  ss << number;
+  const char* string = ss.str().c_str();
+  _length = ss.str().length();
+  _string = new char[_length + 1];
+  _string[_length] = '\0';
+  while (*_string++ = *string++) {}
+  _string -= _length + 1;
+}
 string::~string() {
   delete[] _string;
 }
 
-char& string::operator[](size_t index) const {
+char& string::operator[](size_t index) {
+  return _string[index];
+}
+
+char string::operator[](size_t index) const {
+  return _string[index];
+}
+
+char& string::at(size_t index) {
+  if (index >= _length)
+    throw std::out_of_range("Index is out of range");
+  return _string[index];
+}
+
+char string::at(size_t index) const {
+  if (index >= _length)
+    throw std::out_of_range("Index is out of range");
   return _string[index];
 }
 
@@ -125,8 +149,23 @@ string string::substr(size_t index, size_t length) const {
   } return res;
 }
 
-inline const char* string::c_str() const {
-  return _string;
+bool string::contains(const string& other) const {
+  for (size_t i = 0; i < _length - other.length() + 1; i++) {
+    bool contains = true;
+    for (size_t j = 0; j < other.length(); j++) {
+      if (_string[i + j] != other[j]) {
+        contains = false;
+        i += j;
+        break;
+      }
+    }
+    if (contains)
+      return true;
+  } return false;
+}
+
+string::operator int() const {
+  return std::stoi(_string);
 }
 
 void string::print() const {

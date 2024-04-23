@@ -1,5 +1,6 @@
+.PHONY: default-target libs 
+
 default-target: test
-.PHONY: default-target
 
 ifndef target
 $(error target is NOT defined)
@@ -30,7 +31,7 @@ TEST_DEP = $(TEST_SRC:.cpp=.d)
 libs:
 	cd libs/googletest && cmake . && make
 
-all: compile link run-wholename
+all: compile link run
 test: compile_test link_test run_test
 
 compile: $(OBJ)
@@ -51,7 +52,6 @@ run_test:
 
 clean:
 	rm $(OBJ) $(DEP) $(TEST_OBJ) $(TEST_DEP)
-.PHONY: clean
 
 -include $(DEP)
 -include $(TEST_DEP)

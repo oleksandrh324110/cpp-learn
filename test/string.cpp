@@ -23,6 +23,20 @@ TEST(StringTest, MoveConstructor) {
   EXPECT_EQ(expected, s2);
 }
 
+TEST(StringTest, IntConstructor) {
+  int number1 = 123;
+  string s1(number1);
+  EXPECT_STREQ("123", s1.c_str());
+
+  int number2 = -456;
+  string s2(number2);
+  EXPECT_STREQ("-456", s2.c_str());
+
+  int number3 = 0;
+  string s3(number3);
+  EXPECT_STREQ("0", s3.c_str());
+}
+
 TEST(StringTest, EqualityOperator) {
   string s1("Hello");
   string s2("Hello");
@@ -57,6 +71,39 @@ TEST(StringTest, Substr) {
   string expected = "World";
   EXPECT_EQ(expected, sub);
   EXPECT_EQ(expected.length(), sub.length());
+}
+
+TEST(StringTest, Contains) {
+  string s("Hello, World!");
+
+  string s1("Hello");
+  EXPECT_TRUE(s.contains(s1));
+
+  string s2("World!");
+  EXPECT_TRUE(s.contains(s2));
+
+  string s3("Goodbye");
+  EXPECT_FALSE(s.contains(s3));
+
+  string s4(" ");
+  EXPECT_TRUE(s.contains(s4));
+
+  string s5("");
+  EXPECT_TRUE(s.contains(s5));
+}
+
+TEST(StringTest, IntConversion) {
+  string s1 = "123";
+  int expected1 = 123;
+  EXPECT_EQ(expected1, (int)s1);
+
+  string s2 = "-456";
+  int expected2 = -456;
+  EXPECT_EQ(expected2, (int)s2);
+
+  string s3 = "0";
+  int expected3 = 0;
+  EXPECT_EQ(expected3, (int)s3);
 }
 
 TEST(StringTest, Print) {
