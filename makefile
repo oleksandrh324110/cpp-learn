@@ -1,6 +1,6 @@
 .PHONY: default-target libs 
 
-default-target: test
+default-target: all
 
 ifndef target
 $(error target is NOT defined)
