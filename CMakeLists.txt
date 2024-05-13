@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+
+# set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
+if(WIN32)
+    set(CMAKE_EXECUTABLE_SUFFIX ".exe")
+else()
+    set(CMAKE_EXECUTABLE_SUFFIX "")
+endif()
+
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+
+add_executable(main${CMAKE_EXECUTABLE_SUFFIX} ${SOURCES})
+
+add_custom_target(run
+    COMMAND main${CMAKE_EXECUTABLE_SUFFIX}
+    DEPENDS main${CMAKE_EXECUTABLE_SUFFIX}
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
