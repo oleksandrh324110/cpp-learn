@@ -143,13 +143,13 @@ run/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/build
 .PHONY : run/fast
 
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
+src/main.obj: src/main.cpp.obj
+.PHONY : src/main.obj
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.obj
+.PHONY : src/main.cpp.obj
 
 src/main.i: src/main.cpp.i
 .PHONY : src/main.i
@@ -177,7 +177,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... run"
 	@echo "... main"
-	@echo "... src/main.o"
+	@echo "... src/main.obj"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 .PHONY : help
