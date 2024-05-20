@@ -1,15 +1,22 @@
 #include <iostream>
-#include <vector>
-#include <numeric>
+
+#include "hashmap.h"
 
 int main(void) {
-  size_t size; std::cout << "Enter size: "; std::cin >> size;
+  std::hashmap<std::string, int> map(5);
 
-  std::vector<int> arr(size);
+  map.insert("first insert", 1);
+  map.insert("second insert", 2);
+  map["first bracket"] = 3;
+  map["second bracket"] = 4;
 
-  std::cout << "Enter elements: ";
-  for (size_t i = 0; i < size; i++)
-    std::cin >> arr[i];
+  map.print();
+  std::cout << '\n';
 
-  std::cout << "Multiplication is: " << std::accumulate(arr.begin(), arr.end(), 1, std::multiplies<int>{}) << '\n';
+  map.remove("second insert");
+  map.remove("second bracket");
+
+  map.print();
+
+  std::cout << '\n' << map.contains("first insert") << '\n';
 }
