@@ -1,25 +1,50 @@
-#include <iostream>
-#include <vector>
+#include <benchmark/benchmark.h>
 
-struct Genome {
-  int s, f, a, b;
-};
+#include "hashmap.h"
 
-int main(void) {
-  size_t size;
-  std::cin >> size;
+static void BM_HashMapInsert(benchmark::State& state) {
+  for (auto _ : state) {
+    state.PauseTiming();
+    std::hashmap<int, int> map(state.range(0));
+    state.ResumeTiming();
 
-  std::vector<std::vector<int>> genome(size, std::vector<int>(size));
-
-  for (size_t i = 0; i < size; i++) {
-    for (size_t j = 0; j < size; j++) {
-      std::cin >> genome[i][j];
+    for (int i = 0; i < state.range(0); ++i) {
+      map.insert(i, i);
     }
   }
+}
+BENCHMARK(BM_HashMapInsert)->Range(8, 8 << 8);
 
-  for (auto& v : genome) {
-    Genome g(v[0], v[1], v[2], v[3]);
+static void BM_HashMapRetrieve(benchmark::State& state) {
+  for (auto _ : state) {
+    state.PauseTiming();
+    std::hashmap<int, int> map(state.range(0));
+    for (int i = 0; i < state.range(0); ++i) {
+      map.insert(i, i);
+    }
+    state.ResumeTiming();
 
-    std::vector<int> vec;
+    for (int i = 0; i < state.range(0); ++i) {
+      benchmark::DoNotOptimize(map.contains(i));
+    }
   }
 }
+BENCHMARK(BM_HashMapRetrieve)->Range(8, 8 << 8);
+
+static void BM_HashMapRemove(benchmark::State& state) {
+  for (auto _ : state) {
+    state.PauseTiming();
+    std::hashmap<int, int> map(state.range(0));
+    for (int i = 0; i < state.range(0); ++i) {
+      map.insert(i, i);
+    }
+    state.ResumeTiming();
+
+    for (int i = 0; i < state.range(0); ++i) {
+      map.remove(i);
+    }
+  }
+}
+BENCHMARK(BM_HashMapRemove)->Range(8, 8 << 8);
+
+BENCHMARK_MAIN();
